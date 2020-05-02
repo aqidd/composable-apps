@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  redmine:
+    image: redmine
+    restart: always
+    ports:
+      - 8080:3000
+    environment:
+      REDMINE_DB_MYSQL: maria 
+      REDMINE_DB_PASSWORD: dbpassword
+      REDMINE_DB_DATABASE: redmine
+      REDMINE_SECRET_KEY_BASE: supersecretkey
+    depends_on:
+      - maria
+
+  maria:
+    image: mariadb
+    volumes: 
+      - db_data:/var/lib/mysql/data
+    environment:
+      MYSQL_ROOT_PASSWORD: dbpassword
+      MYSQL_DATABASE: redmine
+
+volumes: 
+  db_data:
